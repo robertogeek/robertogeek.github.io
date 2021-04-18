@@ -46,7 +46,7 @@ async function startBasicCall() {
     const uid = await rtc.client.join(options.appId, options.channel, options.token, null); // pasamos null como parametro uid para que agora genere uno y lo devuelva.
 
     rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ config: { encoderConfig: { VideoEncoderConfigurationPreset: "180p_4" } } });
+    rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ encoderConfig: "180p_4" });
     // Publicar los tracks de audio y video al canal.
     await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
 
