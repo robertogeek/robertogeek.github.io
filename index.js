@@ -10,7 +10,7 @@ var rtc = {
 
 var options = {
     appId: "23284f5bceda4eea97300faa1bdee114",
-    channel: "oculus",  // TODO: preguntar antes de entrar en llamada
+    channel: "4",  // TODO: preguntar antes de entrar en llamada
     token: null, // Si se quiere usar la comunicacion cifrada hay que pasar un token.
 };
 
