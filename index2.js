@@ -81,8 +81,8 @@ function createVideoDOMObject(user) {
     const playerContainer = document.createElement("div");  // TODO: ver si se puede usar un tag más semántico como <video>
 
     playerContainer.id = user.uid.toString();
-    playerContainer.style.width = "240px";
-    playerContainer.style.height = "180px";
+    playerContainer.style.width = "100%";
+    playerContainer.style.height = "100%";
     document.getElementById("videos").append(playerContainer);
     return playerContainer;
 }
