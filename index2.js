@@ -45,34 +45,14 @@ async function startBasicCall() {
     });
 
     const uid = await rtc.client.join(options.appId, options.channel, options.token, null); // pasamos null como parametro uid para que agora genere uno y lo devuelva.
-
-    rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    let tracks = [rtc.localAudioTrack];
-    if (document.getElementById("videos").childElementCount < MAX_VIDEOS) {
-        rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ encoderConfig: "180p_4" });
-        tracks.push(rtc.localVideoTrack);
-
-        const playerContainer = createVideoDOMObject(rtc.client);
-
-        rtc.localVideoTrack.play(playerContainer); // El SDK automaticamente crea un reproductor de video en el div que le pases.
-    }
-    // Publicar los tracks de audio y video al canal.
-    await rtc.client.publish(tracks);
-
-    console.log("publish success!");
 }
 
 async function leaveCall() {
-    rtc.localAudioTrack.close();
-    if (rtc.localVideoTrack) rtc.localVideoTrack.close();
 
     rtc.client.remoteUsers.forEach(user => {
         const playerContainer = document.getElementById(user.uid);
         playerContainer && playerContainer.remove();
     });
-    const localPlayerContainer = document.getElementById(rtc.client.uid);
-    localPlayerContainer && localPlayerContainer.remove();
-
 
     await rtc.client.leave(); // Leave the channel.
 }
