@@ -1,4 +1,5 @@
 const client = AgoraRTC.createClient({ mode: "live", codec: "vp8" });
+const MAX_VIDEOS = 100;
 
 var rtc = {
     // Variables del cliente local.
@@ -46,16 +47,20 @@ async function startBasicCall() {
     const uid = await rtc.client.join(options.appId, options.channel, options.token, null); // pasamos null como parametro uid para que agora genere uno y lo devuelva.
 
     rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ encoderConfig: "180p_4" });
+    let tracks = [rtc.localAudioTrack];
+    if (document.getElementById("videos").childElementCount < MAX_VIDEOS) {
+        rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ encoderConfig: "180p_4" });
+        tracks.push(rtc.localVideoTrack);
+    }
     // Publicar los tracks de audio y video al canal.
-    await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
+    await rtc.client.publish(tracks);
 
     console.log("publish success!");
 }
 
 async function leaveCall() {
     rtc.localAudioTrack.close();
-    rtc.localVideoTrack.close();
+    if (rtc.localVideoTrack) rtc.localVideoTrack.close();
 
     rtc.client.remoteUsers.forEach(user => {
         const playerContainer = document.getElementById(user.uid);
