@@ -8,9 +8,14 @@ var rtc = {
     localVideoTrack: null,
 };
 
-var options = {
+/*var options = {
     appId: "23284f5bceda4eea97300faa1bdee114",
     channel: "4",  // TODO: preguntar antes de entrar en llamada
+    token: null, // Si se quiere usar la comunicacion cifrada hay que pasar un token.
+};*/
+var options = {
+    appId: "5ffded3cf8a944fd91795e485694c067", // Arcadia World
+    channel: "4_streaming",  // TODO: preguntar antes de entrar en llamada
     token: null, // Si se quiere usar la comunicacion cifrada hay que pasar un token.
 };
 
