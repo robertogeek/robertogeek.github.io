@@ -59,6 +59,12 @@ async function startBasicCall() {
     // Publicar los tracks de audio y video al canal.
     await rtc.client.publish(tracks);
 
+    let pushButton = document.getElementById("talkbutton");
+    pushButton.style = "";
+    pushButton.addEventListener("mousedown", startTalking);
+    pushButton.addEventListener("mouseup", stopTalking);
+    rtc.localAudioTrack.setVolume(0);
+
     console.log("publish success!");
 }
 
@@ -85,4 +91,14 @@ function createVideoDOMObject(user) {
     playerContainer.style.height = "180px";
     document.getElementById("videos").append(playerContainer);
     return playerContainer;
+}
+
+function startTalking() {
+    rtc.localAudioTrack.setVolume(100);
+    console.log("startTalking()");
+}
+
+function stopTalking() {
+    rtc.localAudioTrack.setVolume(0);
+    console.log("stopTalking()");
 }
