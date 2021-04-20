@@ -46,26 +46,28 @@ async function startBasicCall() {
 
     const uid = await rtc.client.join(options.appId, options.channel, options.token, null); // pasamos null como parametro uid para que agora genere uno y lo devuelva.
 
+    // ---- Enable audio ----
     rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    let tracks = [rtc.localAudioTrack];
-    if (document.getElementById("videos").childElementCount < MAX_VIDEOS) {
-        rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ encoderConfig: "180p_4" });
-        tracks.push(rtc.localVideoTrack);
-
-        const playerContainer = createVideoDOMObject(rtc.client);
-
-        rtc.localVideoTrack.play(playerContainer); // El SDK automaticamente crea un reproductor de video en el div que le pases.
-    }
-    // Publicar los tracks de audio y video al canal.
-    await rtc.client.publish(tracks);
+    await rtc.client.publish(rtc.localAudioTrack);
 
     let pushButton = document.getElementById("talkbutton");
     pushButton.style = "";
     pushButton.addEventListener("mousedown", startTalking);
     pushButton.addEventListener("mouseup", stopTalking);
     rtc.localAudioTrack.setVolume(0);
+    console.log("audio publish success!");
 
-    console.log("publish success!");
+    // ---- Enable video ----
+    if (document.getElementById("videos").childElementCount < MAX_VIDEOS) {
+        rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({ encoderConfig: "180p_4" });
+
+        const playerContainer = createVideoDOMObject(rtc.client);
+
+        rtc.localVideoTrack.play(playerContainer); // El SDK automaticamente crea un reproductor de video en el div que le pases.
+    }
+    await rtc.client.publish(rtc.localVideoTrack);
+
+    console.log("video publish success!");
 }
 
 async function leaveCall() {
