@@ -1,11 +1,8 @@
-const client = AgoraRTC.createClient({ mode: "live", codec: "vp8" });
 const MAX_VIDEOS = 100;
 
 var rtc = {
     // Variables del cliente local.
     client: null,
-    localAudioTrack: null,
-    localVideoTrack: null,
 };
 
 /*var options = {
@@ -22,12 +19,11 @@ var options = {
 startBasicCall();
 
 async function startBasicCall() {
-    rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }); // mode live si queremos 1 ponente a muchos espectadores. Codec puede ser "h264".
+    rtc.client = AgoraRTC.createClient({ mode: "live", codec: "vp8" }); // mode live si queremos 1 ponente a muchos espectadores. Codec puede ser "h264".
     rtc.client.on("user-published", async (user, mediaType) => {
         // Subscribe to a remote user.
         await rtc.client.subscribe(user, mediaType);
         console.log("subscribe success");
-
         console.log(mediaType);
 
         if (mediaType === "video") {
@@ -35,11 +31,6 @@ async function startBasicCall() {
             const playerContainer = createVideoDOMObject(user);
 
             remoteVideoTrack.play(playerContainer); // El SDK automaticamente crea un reproductor de video en el div que le pases.
-        }
-
-        if (mediaType === "audio") {
-            const remoteAudioTrack = user.audioTrack;
-            remoteAudioTrack.play();
         }
     });
     rtc.client.on("user-unpublished", user => {
