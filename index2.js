@@ -31,6 +31,7 @@ async function startBasicCall() {
             const playerContainer = createVideoDOMObject(user);
 
             remoteVideoTrack.play(playerContainer); // El SDK automaticamente crea un reproductor de video en el div que le pases.
+            playerContainer.children[0].style = "";
         }
     });
     rtc.client.on("user-unpublished", user => {
@@ -57,8 +58,6 @@ function createVideoDOMObject(user) {
     const playerContainer = document.createElement("div");  // TODO: ver si se puede usar un tag más semántico como <video>
 
     playerContainer.id = user.uid.toString();
-    playerContainer.style.width = "240px";
-    playerContainer.style.height = "180px";
     document.getElementById("videos").append(playerContainer);
     return playerContainer;
 }
